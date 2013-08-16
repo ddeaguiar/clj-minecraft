@@ -1,9 +1,10 @@
 (ns cljminecraft.util
   (:require [clojure.set :as set])
   (:require [cljminecraft.logging :as log])
-  (:import (java.net ServerSocket InetSocketAddress))
-  (:import (java.io IOException))
-  )
+  (:import (java.net ServerSocket InetSocketAddress)
+           (java.io IOException)
+           (org.reflections Reflections)
+           (org.reflections.scanners Scanner)))
 
 (defmacro map-enums [enumclass]
   `(apply merge (map #(hash-map (keyword (.toLowerCase (.name %))) %) (~(symbol (apply str (name enumclass) "/values"))))))
@@ -14,7 +15,7 @@
   (let [defined (set (map #(str (first %)) args))
         names (fn [i] (map #(.getName %) (.getMethods i)))
         all-names (into #{} (apply concat (map names (map resolve interfaces))))
-        undefined (set/difference all-names defined) 
+        undefined (set/difference all-names defined)
         auto-gen (map (fn [x] `(~(symbol x) [& ~'args])) undefined)]
     `(proxy ~interfaces ~variables ~@args ~@auto-gen)))
 
@@ -77,8 +78,7 @@
 
 (defn find-subclasses [package-name class]
   (filter #(not (nil? %))
-          (seq (.getSubTypesOf (org.reflections.Reflections.
+          (seq (.getSubTypesOf (Reflections.
                                 package-name
-                                (into-array org.reflections.scanners.Scanner []))
+                                (into-array Scanner []))
                                class))))
-
