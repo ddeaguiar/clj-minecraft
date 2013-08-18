@@ -8,6 +8,8 @@
                  [cheshire "5.2.0"]
                  [org.reflections/reflections "0.9.9-RC1"]
                  [org.getspout/spoutplugin "1.5.2-R1.0-SNAPSHOT"]]
+  :plugins [[cljminecraft-deploy "0.1.0-SNAPSHOT"]]
+  :hooks [leiningen.cljminecraft-deploy]
   :profiles {:dev {:dependencies []}}
   :javac-options [ "-d" "classes/" "-source" "1.6" "-target" "1.6"]
   :java-source-paths ["javasrc"]
