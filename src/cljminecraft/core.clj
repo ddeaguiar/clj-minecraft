@@ -92,11 +92,11 @@
   (plr/permission-attach-all! plugin))
 
 (defn disable-permission-system
-  [plugin]
+  []
   (plr/permission-detach-all!))
 
 ;; cljminecraft specific setup
-(defn start 
+(defn start
   "onEnable cljminecraft"
   [plugin]
   (reset! clj-plugin plugin)
